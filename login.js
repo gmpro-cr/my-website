@@ -57,35 +57,152 @@ function initializeData() {
     if (!localStorage.getItem('creditCards')) {
         localStorage.setItem('creditCards', JSON.stringify(sampleCards));
     }
+    // Initialize payment history
+    if (!localStorage.getItem('paymentHistory')) {
+        localStorage.setItem('paymentHistory', JSON.stringify([]));
+    }
+}
+
+// Toggle password visibility
+function togglePassword() {
+    const passwordInput = document.getElementById('password');
+    const toggleIcon = document.getElementById('toggleIcon');
+
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleIcon.textContent = '🙈';
+    } else {
+        passwordInput.type = 'password';
+        toggleIcon.textContent = '👁️';
+    }
+}
+
+// Form validation
+function validateForm() {
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+    const usernameError = document.getElementById('username-error');
+    const passwordError = document.getElementById('password-error');
+    const errorMessage = document.getElementById('errorMessage');
+
+    let isValid = true;
+
+    // Clear previous errors
+    usernameError.textContent = '';
+    passwordError.textContent = '';
+    errorMessage.textContent = '';
+
+    // Validate username
+    if (!username) {
+        usernameError.textContent = 'Username is required';
+        isValid = false;
+    } else if (username.length < 3) {
+        usernameError.textContent = 'Username must be at least 3 characters';
+        isValid = false;
+    }
+
+    // Validate password
+    if (!password) {
+        passwordError.textContent = 'Password is required';
+        isValid = false;
+    } else if (password.length < 6) {
+        passwordError.textContent = 'Password must be at least 6 characters';
+        isValid = false;
+    }
+
+    return isValid;
+}
+
+// Show loading state
+function setLoading(isLoading) {
+    const loginBtn = document.getElementById('loginBtn');
+    const btnText = loginBtn.querySelector('.btn-text');
+    const btnLoader = loginBtn.querySelector('.btn-loader');
+
+    if (isLoading) {
+        loginBtn.disabled = true;
+        btnText.style.display = 'none';
+        btnLoader.style.display = 'inline-block';
+        loginBtn.style.opacity = '0.7';
+    } else {
+        loginBtn.disabled = false;
+        btnText.style.display = 'inline';
+        btnLoader.style.display = 'none';
+        loginBtn.style.opacity = '1';
+    }
 }
 
 // Handle login form submission
-document.getElementById('loginForm').addEventListener('submit', function(e) {
+document.getElementById('loginForm').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    const username = document.getElementById('username').value;
+    // Validate form
+    if (!validateForm()) {
+        return;
+    }
+
+    const username = document.getElementById('username').value.trim();
     const password = document.getElementById('password').value;
     const errorMessage = document.getElementById('errorMessage');
+
+    // Show loading state
+    setLoading(true);
+
+    // Simulate network delay
+    await new Promise(resolve => setTimeout(resolve, 800));
 
     // Demo authentication
     if (username === 'demo' && password === 'demo123') {
         // Initialize data
         initializeData();
 
-        // Set logged in status
+        // Set logged in status with timestamp
         localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('loginTime', new Date().toISOString());
+        localStorage.setItem('username', username);
 
-        // Redirect to cards page
-        window.location.href = 'cards.html';
+        // Redirect to dashboard
+        window.location.href = 'dashboard.html';
     } else {
-        errorMessage.textContent = 'Invalid username or password';
+        setLoading(false);
+        errorMessage.textContent = 'Invalid username or password. Please try again.';
+
+        // Shake animation
+        errorMessage.style.animation = 'shake 0.5s';
         setTimeout(() => {
-            errorMessage.textContent = '';
-        }, 3000);
+            errorMessage.style.animation = '';
+        }, 500);
+    }
+});
+
+// Real-time validation
+document.getElementById('username').addEventListener('blur', function() {
+    const usernameError = document.getElementById('username-error');
+    const username = this.value.trim();
+
+    if (!username) {
+        usernameError.textContent = 'Username is required';
+    } else if (username.length < 3) {
+        usernameError.textContent = 'Username must be at least 3 characters';
+    } else {
+        usernameError.textContent = '';
+    }
+});
+
+document.getElementById('password').addEventListener('blur', function() {
+    const passwordError = document.getElementById('password-error');
+    const password = this.value;
+
+    if (!password) {
+        passwordError.textContent = 'Password is required';
+    } else if (password.length < 6) {
+        passwordError.textContent = 'Password must be at least 6 characters';
+    } else {
+        passwordError.textContent = '';
     }
 });
 
 // Check if already logged in
 if (localStorage.getItem('isLoggedIn') === 'true') {
-    window.location.href = 'cards.html';
+    window.location.href = 'dashboard.html';
 }

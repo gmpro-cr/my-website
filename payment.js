@@ -125,8 +125,15 @@ function selectUPI(method) {
     }
 }
 
+// Generate transaction ID
+function generateTransactionId() {
+    const timestamp = Date.now();
+    const random = Math.floor(Math.random() * 1000000);
+    return `TXN${timestamp}${random}`.substring(0, 16);
+}
+
 // Process payment
-function processPayment() {
+async function processPayment() {
     const card = paymentState.card;
 
     // Validate amount selection
@@ -166,6 +173,18 @@ function processPayment() {
         }
     }
 
+    // Show loading
+    const payBtn = document.querySelector('.action-section .btn-primary');
+    const originalText = payBtn.textContent;
+    payBtn.disabled = true;
+    payBtn.innerHTML = '<span class="btn-loader"></span> Processing...';
+
+    // Simulate payment processing
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    // Generate transaction ID
+    const transactionId = generateTransactionId();
+
     // Update card data
     const cards = JSON.parse(localStorage.getItem('creditCards')) || [];
     const cardIndex = cards.findIndex(c => c.id === card.id);
@@ -182,16 +201,39 @@ function processPayment() {
         localStorage.setItem('creditCards', JSON.stringify(cards));
     }
 
+    // Save payment history
+    const paymentHistory = JSON.parse(localStorage.getItem('paymentHistory')) || [];
+    paymentHistory.push({
+        transactionId: transactionId,
+        cardBank: card.bank,
+        cardNumber: card.cardNumber,
+        amount: paymentState.selectedAmount,
+        upiMethod: getUPIName(paymentState.selectedUPI),
+        date: new Date().toISOString(),
+        status: 'success'
+    });
+    localStorage.setItem('paymentHistory', JSON.stringify(paymentHistory));
+
+    // Reset button
+    payBtn.disabled = false;
+    payBtn.textContent = originalText;
+
     // Show success modal
-    showSuccessModal();
+    showSuccessModal(transactionId);
 }
 
 // Show success modal
-function showSuccessModal() {
+function showSuccessModal(transactionId) {
     const modal = document.getElementById('successModal');
     const message = document.getElementById('successMessage');
 
-    message.textContent = `Payment of ${formatCurrency(paymentState.selectedAmount)} has been processed successfully via ${getUPIName(paymentState.selectedUPI)}.`;
+    message.innerHTML = `
+        <p style="margin-bottom: 16px;">Payment of <strong>${formatCurrency(paymentState.selectedAmount)}</strong> has been processed successfully via ${getUPIName(paymentState.selectedUPI)}.</p>
+        <div style="background: var(--bg-gray-50); padding: 12px; border-radius: 8px; border: 1px solid var(--border-gray);">
+            <div style="font-size: 12px; color: var(--text-tertiary); margin-bottom: 4px;">Transaction ID</div>
+            <div style="font-family: 'Courier New', monospace; font-size: 14px; font-weight: 600; color: var(--text-primary);">${transactionId}</div>
+        </div>
+    `;
 
     modal.classList.add('show');
 }
@@ -209,7 +251,7 @@ function getUPIName(method) {
 
 // Return to cards page
 function returnToCards() {
-    window.location.href = 'cards.html';
+    window.location.href = 'dashboard.html';
 }
 
 // Initialize
