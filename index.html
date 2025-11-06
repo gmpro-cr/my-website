@@ -15,7 +15,7 @@
                 <p class="app-subtitle">Pay your credit card bills instantly with UPI</p>
             </div>
 
-            <form id="loginForm" class="login-form">
+            <form id="loginForm" class="login-form" novalidate>
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input
@@ -24,23 +24,44 @@
                         name="username"
                         placeholder="Enter your username"
                         required
+                        aria-required="true"
+                        aria-describedby="username-error"
+                        autocomplete="username"
                     >
+                    <span class="field-error" id="username-error" role="alert"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        placeholder="Enter your password"
-                        required
-                    >
+                    <div class="password-input-wrapper">
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            required
+                            aria-required="true"
+                            aria-describedby="password-error"
+                            autocomplete="current-password"
+                        >
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            onclick="togglePassword()"
+                            aria-label="Toggle password visibility"
+                        >
+                            <span id="toggleIcon">👁️</span>
+                        </button>
+                    </div>
+                    <span class="field-error" id="password-error" role="alert"></span>
                 </div>
 
-                <div class="error-message" id="errorMessage"></div>
+                <div class="error-message" id="errorMessage" role="alert"></div>
 
-                <button type="submit" class="btn btn-primary">Login</button>
+                <button type="submit" class="btn btn-primary" id="loginBtn">
+                    <span class="btn-text">Login</span>
+                    <span class="btn-loader" style="display: none;"></span>
+                </button>
 
                 <div class="login-help">
                     <p class="demo-info">Demo credentials: username: <strong>demo</strong> | password: <strong>demo123</strong></p>

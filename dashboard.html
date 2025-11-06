@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - UPI Credit Card Payment</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-navbar">
+            <div class="navbar-content">
+                <h2>💳 Credit Card Pay</h2>
+                <div class="navbar-actions">
+                    <button class="btn btn-icon" onclick="toggleDarkMode()" aria-label="Toggle dark mode" title="Toggle dark mode">
+                        <span id="themeIcon">🌙</span>
+                    </button>
+                    <button class="btn btn-text" onclick="showHelp()">Help</button>
+                    <button class="btn btn-text" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="content-wrapper">
+            <!-- Welcome Section -->
+            <div class="welcome-section">
+                <h1>Welcome back, <span id="userName">User</span>!</h1>
+                <p class="welcome-subtitle">Manage your credit card payments with ease</p>
+            </div>
+
+            <!-- Payment Reminders -->
+            <div id="paymentReminders" class="reminders-container"></div>
+
+            <!-- Quick Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-info">
+                        <p class="stat-label">Total Due</p>
+                        <p class="stat-value" id="totalDue">₹0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💳</div>
+                    <div class="stat-info">
+                        <p class="stat-label">Active Cards</p>
+                        <p class="stat-value" id="activeCards">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-info">
+                        <p class="stat-label">Upcoming Payments</p>
+                        <p class="stat-value" id="upcomingPayments">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">✓</div>
+                    <div class="stat-info">
+                        <p class="stat-label">Paid This Month</p>
+                        <p class="stat-value" id="paidThisMonth">₹0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Your Credit Cards -->
+            <div class="section-header">
+                <h2>Your Credit Cards</h2>
+                <a href="cards.html" class="btn btn-text">View All →</a>
+            </div>
+
+            <div class="cards-grid" id="cardsGrid">
+                <!-- Cards will be dynamically loaded -->
+            </div>
+
+            <!-- Recent Transactions -->
+            <div class="section-header">
+                <h2>Recent Transactions</h2>
+                <button class="btn btn-text" onclick="showAllTransactions()">View All →</button>
+            </div>
+
+            <div class="transactions-section">
+                <div class="transactions-list" id="recentTransactions">
+                    <!-- Transactions will be dynamically loaded -->
+                </div>
+            </div>
+
+            <!-- Payment History -->
+            <div class="section-header">
+                <h2>Payment History</h2>
+            </div>
+
+            <div class="payment-history-section">
+                <div id="paymentHistoryList">
+                    <!-- Payment history will be dynamically loaded -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div class="modal" id="helpModal">
+        <div class="modal-content help-modal-content">
+            <div class="modal-header">
+                <h2>Help & FAQ</h2>
+                <button class="modal-close" onclick="closeHelp()" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="faq-section">
+                    <h3>How to make a payment?</h3>
+                    <p>Click on any credit card, view the details, and click "Pay Now". Select your payment amount and UPI method to complete the payment.</p>
+                </div>
+                <div class="faq-section">
+                    <h3>What UPI methods are supported?</h3>
+                    <p>We support Google Pay, PhonePe, Paytm, and direct UPI ID payments.</p>
+                </div>
+                <div class="faq-section">
+                    <h3>How do I view my payment history?</h3>
+                    <p>All your payment history is displayed on the dashboard below your recent transactions.</p>
+                </div>
+                <div class="faq-section">
+                    <h3>When should I pay my credit card bill?</h3>
+                    <p>You should pay at least the minimum due amount before the due date to avoid late fees. Paying the total due amount helps you avoid interest charges.</p>
+                </div>
+                <div class="faq-section">
+                    <h3>Is my data secure?</h3>
+                    <p>Yes, all your data is stored locally in your browser and is not sent to any server.</p>
+                </div>
+                <div class="faq-section">
+                    <h3>Demo Credentials</h3>
+                    <p><strong>Username:</strong> demo<br><strong>Password:</strong> demo123</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
