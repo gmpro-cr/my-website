@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - UPI Credit Card Payment</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-navbar">
+            <div class="navbar-content">
+                <button class="btn btn-text" onclick="goBack()">← Back</button>
+                <h2>Make Payment</h2>
+                <button class="btn btn-text" onclick="logout()">Logout</button>
+            </div>
+        </header>
+
+        <div class="content-wrapper">
+            <div class="payment-summary" id="paymentSummary">
+                <!-- Payment summary will be dynamically loaded -->
+            </div>
+
+            <div class="payment-section">
+                <h3>Payment Amount</h3>
+                <div class="amount-options">
+                    <button class="amount-btn" onclick="selectAmount('minimum')">
+                        <span class="amount-label">Minimum Due</span>
+                        <span class="amount-value" id="minimumAmount">₹0</span>
+                    </button>
+                    <button class="amount-btn" onclick="selectAmount('total')">
+                        <span class="amount-label">Total Due</span>
+                        <span class="amount-value" id="totalAmount">₹0</span>
+                    </button>
+                    <button class="amount-btn" onclick="selectAmount('custom')">
+                        <span class="amount-label">Custom Amount</span>
+                        <span class="amount-value">Enter amount</span>
+                    </button>
+                </div>
+
+                <div class="custom-amount-input" id="customAmountSection" style="display: none;">
+                    <input
+                        type="number"
+                        id="customAmount"
+                        placeholder="Enter custom amount"
+                        class="form-input"
+                    >
+                </div>
+            </div>
+
+            <div class="payment-section">
+                <h3>Select UPI Method</h3>
+                <div class="upi-methods">
+                    <button class="upi-method-btn" onclick="selectUPI('gpay')">
+                        <div class="upi-icon">G</div>
+                        <span>Google Pay</span>
+                    </button>
+                    <button class="upi-method-btn" onclick="selectUPI('phonepe')">
+                        <div class="upi-icon">Φ</div>
+                        <span>PhonePe</span>
+                    </button>
+                    <button class="upi-method-btn" onclick="selectUPI('paytm')">
+                        <div class="upi-icon">P</div>
+                        <span>Paytm</span>
+                    </button>
+                    <button class="upi-method-btn" onclick="selectUPI('upi')">
+                        <div class="upi-icon">₹</div>
+                        <span>UPI ID</span>
+                    </button>
+                </div>
+
+                <div class="upi-id-input" id="upiIdSection" style="display: none;">
+                    <input
+                        type="text"
+                        id="upiId"
+                        placeholder="Enter your UPI ID (e.g., user@paytm)"
+                        class="form-input"
+                    >
+                </div>
+            </div>
+
+            <div class="action-section">
+                <button class="btn btn-primary btn-large" onclick="processPayment()">
+                    Proceed to Pay
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="success-icon">✓</div>
+            <h2>Payment Successful!</h2>
+            <p id="successMessage">Your payment has been processed successfully.</p>
+            <button class="btn btn-primary" onclick="returnToCards()">Back to Cards</button>
+        </div>
+    </div>
+
+    <script src="payment.js"></script>
+</body>
+</html>
