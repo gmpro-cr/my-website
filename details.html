@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Details - UPI Credit Card Payment</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-navbar">
+            <div class="navbar-content">
+                <button class="btn btn-text" onclick="goBack()">← Back</button>
+                <h2>Card Details</h2>
+                <button class="btn btn-text" onclick="logout()">Logout</button>
+            </div>
+        </header>
+
+        <div class="content-wrapper">
+            <div class="card-detail-header" id="cardHeader">
+                <!-- Card header will be dynamically loaded -->
+            </div>
+
+            <div class="details-section">
+                <h3>Payment Details</h3>
+                <div class="details-grid" id="detailsGrid">
+                    <!-- Details will be dynamically loaded -->
+                </div>
+            </div>
+
+            <div class="details-section">
+                <h3>Recent Transactions</h3>
+                <div class="transactions-list" id="transactionsList">
+                    <!-- Transactions will be dynamically loaded -->
+                </div>
+            </div>
+
+            <div class="action-section">
+                <button class="btn btn-primary btn-large" onclick="proceedToPayment()">
+                    Pay Now
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="details.js"></script>
+</body>
+</html>

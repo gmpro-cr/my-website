@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Credit Cards - UPI Credit Card Payment</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-navbar">
+            <div class="navbar-content">
+                <h2>My Credit Cards</h2>
+                <button class="btn btn-text" onclick="logout()">Logout</button>
+            </div>
+        </header>
+
+        <div class="content-wrapper">
+            <div class="page-header">
+                <h1>Your Credit Cards</h1>
+                <p class="page-subtitle">Select a card to view dues and make payment</p>
+            </div>
+
+            <div class="cards-grid" id="cardsGrid">
+                <!-- Cards will be dynamically loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="cards.js"></script>
+</body>
+</html>
